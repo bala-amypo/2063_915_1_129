@@ -5,21 +5,23 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "discount_applications")
 public class DiscountApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    [cite_start]private Long id; [cite: 105]
-    
+    private Long id; // [cite: 105]
+
     @ManyToOne
     @JoinColumn(name = "cart_id")
-    [cite_start]private Cart cart; [cite: 106]
-    
+    private Cart cart; // [cite: 106]
+
     @ManyToOne
     @JoinColumn(name = "bundle_rule_id")
-    [cite_start]private BundleRule bundleRule; [cite: 107]
-    
-    [cite_start]private BigDecimal discountAmount; [cite: 108]
-    [cite_start]private LocalDateTime appliedAt = LocalDateTime.now(); [cite: 109]
+    private BundleRule bundleRule; // [cite: 107]
+
+    private BigDecimal discountAmount; // [cite: 108]
+
+    private LocalDateTime appliedAt = LocalDateTime.now(); // [cite: 109]
 
     // Getters and Setters
     public Long getId() { return id; }
