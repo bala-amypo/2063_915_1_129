@@ -18,10 +18,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product createProduct(Product product) {
         if (productRepository.findBySku(product.getSku()).isPresent()) {
-            throw new IllegalArgumentException("SKU already exists"); [cite: 49, 185, 186]
+            throw new IllegalArgumentException("SKU already exists");
         }
         if (product.getPrice() == null || product.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Price must be positive"); [cite: 52, 53, 187]
+            throw new IllegalArgumentException("Price must be positive");
         }
         return productRepository.save(product);
     }
@@ -29,20 +29,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found")); [cite: 161, 189]
+                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
     }
 
     @Override
     public void deactivateProduct(Long id) {
         Product product = getProductById(id);
-        product.setActive(false); [cite: 55, 191]
+        product.setActive(false);
         productRepository.save(product);
     }
 
     @Override
     public Product updateProduct(Long id, Product product) {
         Product existing = getProductById(id);
-        existing.setName(product.getName()); [cite: 188]
+        existing.setName(product.getName());
         existing.setPrice(product.getPrice());
         return productRepository.save(existing);
     }
