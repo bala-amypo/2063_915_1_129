@@ -4,9 +4,10 @@ import com.example.demo.model.Cart;
 import com.example.demo.repository.CartRepository;
 import com.example.demo.service.CartService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CartServiceImpl implements CartService {
-
     private final CartRepository cartRepository;
 
     public CartServiceImpl(CartRepository cartRepository) {
@@ -17,17 +18,16 @@ public class CartServiceImpl implements CartService {
     public Cart createCart(Long userId) {
         return cartRepository.findByUserIdAndActiveTrue(userId)
                 .orElseGet(() -> {
-                    Cart cart = new Cart();
-                    cart.setUserId(userId);
-                    cart.setActive(true);
-                    return cartRepository.save(cart);
+                    Cart newCart = new Cart();
+                    newCart.setUserId(userId);
+                    newCart.setActive(true); [cite: 86, 204]
+                    return cartRepository.save(newCart);
                 });
     }
 
     @Override
     public Cart getActiveCartForUser(Long userId) {
         return cartRepository.findByUserIdAndActiveTrue(userId)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Active cart not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Active cart not found")); [cite: 162, 163, 207]
     }
 }

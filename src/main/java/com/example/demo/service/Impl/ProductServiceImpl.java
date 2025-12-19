@@ -12,38 +12,38 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     public ProductServiceImpl(ProductRepository productRepository) {
-        [cite_start]this.productRepository = productRepository; [cite: 183]
+        this.productRepository = productRepository;
     }
 
     @Override
     public Product createProduct(Product product) {
         if (productRepository.findBySku(product.getSku()).isPresent()) {
-            [cite_start]throw new IllegalArgumentException("SKU already exists"); [cite: 185, 186]
+            throw new IllegalArgumentException("SKU already exists"); [cite: 49, 185, 186]
         }
-        if (product.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-            [cite_start]throw new IllegalArgumentException("Price must be positive"); [cite: 187]
+        if (product.getPrice() == null || product.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Price must be positive"); [cite: 52, 53, 187]
         }
-        [cite_start]return productRepository.save(product); [cite: 134]
+        return productRepository.save(product);
     }
 
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id)
-                [cite_start].orElseThrow(() -> new EntityNotFoundException("Product not found")); [cite: 160, 189]
+                .orElseThrow(() -> new EntityNotFoundException("Product not found")); [cite: 161, 189]
     }
 
     @Override
     public void deactivateProduct(Long id) {
-        Product p = getProductById(id);
-        [cite_start]p.setActive(false); [cite: 191]
-        productRepository.save(p);
+        Product product = getProductById(id);
+        product.setActive(false); [cite: 55, 191]
+        productRepository.save(product);
     }
-    
+
     @Override
     public Product updateProduct(Long id, Product product) {
         Product existing = getProductById(id);
-        existing.setName(product.getName());
-        [cite_start]existing.setPrice(product.getPrice()); [cite: 188]
+        existing.setName(product.getName()); [cite: 188]
+        existing.setPrice(product.getPrice()); [cite: 188]
         return productRepository.save(existing);
     }
 }
