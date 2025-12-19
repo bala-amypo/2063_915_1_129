@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/bundle-rules")
 public class BundleRuleController {
-
     private final BundleRuleService bundleRuleService;
 
     public BundleRuleController(BundleRuleService bundleRuleService) {
@@ -15,7 +14,8 @@ public class BundleRuleController {
     }
 
     @PostMapping
-    public BundleRule createBundleRule(@RequestBody BundleRule rule) {
+    public BundleRule createRule(@RequestBody BundleRule rule) {
+        // Delegates to service for validation of percentage (0-100) and product IDs
         return bundleRuleService.createRule(rule);
     }
 }

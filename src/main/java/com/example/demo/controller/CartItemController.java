@@ -3,13 +3,11 @@ package com.example.demo.controller;
 import com.example.demo.model.CartItem;
 import com.example.demo.service.CartItemService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/cart-items")
 public class CartItemController {
-
     private final CartItemService cartItemService;
 
     public CartItemController(CartItemService cartItemService) {
@@ -18,11 +16,11 @@ public class CartItemController {
 
     @PostMapping
     public CartItem addItem(@RequestBody CartItem item) {
-        return cartItemService.addItemToCart(item);
+        return cartItemService.addItemToCart(item); [cite: 254]
     }
 
     @GetMapping("/cart/{cartId}")
-    public List<CartItem> getItems(@PathVariable Long cartId) {
-        return cartItemService.getItemsForCart(cartId);
+    public List<CartItem> listItems(@PathVariable Long cartId) {
+        return cartItemService.getItemsForCart(cartId); [cite: 255]
     }
 }
