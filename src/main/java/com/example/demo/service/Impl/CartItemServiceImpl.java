@@ -22,13 +22,13 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public CartItem addItemToCart(CartItem item) {
         Cart cart = cartRepository.findById(item.getCart().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Cart not found")); [cite: 215]
+                .orElseThrow(() -> new EntityNotFoundException("Cart not found"));
 
         Product product = productRepository.findById(item.getProduct().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Product not found")); [cite: 215]
+                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
         if (!cart.getActive()) {
-            throw new IllegalArgumentException("Only active carts can accept items"); [cite: 87, 88, 217]
+            throw new IllegalArgumentException("Only active carts can accept items");
         }
         if (!product.getActive()) {
             throw new IllegalArgumentException("Product is inactive");

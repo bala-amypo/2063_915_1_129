@@ -20,7 +20,7 @@ public class CartServiceImpl implements CartService {
                 .orElseGet(() -> {
                     Cart newCart = new Cart();
                     newCart.setUserId(userId);
-                    newCart.setActive(true); [cite: 86, 204]
+                    newCart.setActive(true);
                     return cartRepository.save(newCart);
                 });
     }
@@ -28,6 +28,6 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart getActiveCartForUser(Long userId) {
         return cartRepository.findByUserIdAndActiveTrue(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Active cart not found")); [cite: 162, 163, 207]
+                .orElseThrow(() -> new EntityNotFoundException("Active cart not found"));
     }
 }

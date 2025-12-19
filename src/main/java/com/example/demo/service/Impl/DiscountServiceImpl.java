@@ -27,26 +27,26 @@ public class DiscountServiceImpl implements DiscountService {
     @Transactional
     public List<DiscountApplication> evaluateDiscounts(Long cartId) {
         Cart cart = cartRepo.findById(cartId).orElse(null);
-        if (cart == null || !cart.getActive()) return Collections.emptyList(); [cite: 229, 230]
+        if (cart == null || !cart.getActive()) return Collections.emptyList();
 
-        discountRepo.deleteByCartId(cartId); [cite: 152, 233, 234]
+        discountRepo.deleteByCartId(cartId);
 
-        List<CartItem> items = itemRepo.findByCartId(cartId); [cite: 231]
-        List<BundleRule> rules = ruleRepo.findByActiveTrue(); [cite: 138, 232]
+        List<CartItem> items = itemRepo.findByCartId(cartId);
+        List<BundleRule> rules = ruleRepo.findByActiveTrue();
 
         List<DiscountApplication> applications = new ArrayList<>();
         Map<Long, CartItem> itemMap = items.stream()
             .collect(Collectors.toMap(i -> i.getProduct().getId(), i -> i));
 
         for (BundleRule rule : rules) {
-            String[] requiredIds = rule.getRequiredProductIds().split(","); [cite: 66, 76]
+            String[] requiredIds = rule.getRequiredProductIds().split(",");
             boolean match = true;
             BigDecimal totalQualifyingPrice = BigDecimal.ZERO;
 
             for (String idStr : requiredIds) {
                 Long prodId = Long.parseLong(idStr.trim());
                 if (!itemMap.containsKey(prodId)) {
-                    match = false; [cite: 235]
+                    match = false;
                     break;
                 }
                 Product p = itemMap.get(prodId).getProduct();
@@ -58,10 +58,10 @@ public class DiscountServiceImpl implements DiscountService {
                 BigDecimal discount = totalQualifyingPrice.multiply(BigDecimal.valueOf(rule.getDiscountPercentage() / 100.0));
 
                 DiscountApplication app = new DiscountApplication();
-                app.setCart(cart); [cite: 111, 112]
-                app.setBundleRule(rule); [cite: 111, 112]
-                app.setDiscountAmount(discount); [cite: 115, 236]
-                applications.add(discountRepo.save(app)); [cite: 153]
+                app.setCart(cart);
+                app.setBundleRule(rule);
+                app.setDiscountAmount(discount);
+                applications.add(discountRepo.save(app));
             }
         }
         return applications;
