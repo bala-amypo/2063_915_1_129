@@ -1,9 +1,48 @@
-package com.example.demo.repository;
+package com.example.demo.controller;
 
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
 import com.example.demo.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.JwtTokenProvider;
+import org.springframework.web.bind.annotation.*;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public AuthController(UserRepository userRepository,
+                          JwtTokenProvider jwtTokenProvider) {
+        this.userRepository = userRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    @PostMapping("/register")
+    public void register(@RequestBody UserRegistrationRequest request) {
+    request.validateForRegistration();
+    userRepository.save(request.toUserEntity());
+    }
+
+    @PostMapping("/login")
+public AuthResponse login(@RequestBody AuthRequest request) {
+
+    request.validateForLogin();
+
+    User user = userRepository.findByEmail(request.getEmail())
+            .orElseThrow(() ->
+                    new IllegalArgumentException("Invalid credentials"));
+
+    if (!user.getPassword().equals(request.getPassword())) {
+        throw new IllegalArgumentException("Invalid credentials");
+    }
+
+    String token = jwtTokenProvider.generateToken(
+            user.getEmail(), user.getRole(), user.getId());
+
+    return new AuthResponse(token);
+}
+
 }
