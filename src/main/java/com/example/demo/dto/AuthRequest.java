@@ -1,8 +1,8 @@
 package com.example.demo.dto;
 
 public class AuthRequest {
-    private String email; // [cite: 121]
-    private String password; // [cite: 121]
+    private String email;
+    private String password;
 
     // Getters and Setters
     public String getEmail() { return email; }

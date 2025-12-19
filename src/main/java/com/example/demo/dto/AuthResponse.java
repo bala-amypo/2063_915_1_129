@@ -1,7 +1,7 @@
 package com.example.demo.dto;
 
 public class AuthResponse {
-    private String token; // [cite: 124]
+    private String token;
 
     // Getters and Setters
     public String getToken() { return token; }
