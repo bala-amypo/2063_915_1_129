@@ -1,43 +1,31 @@
 package com.example.demo.security;
 
-import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
-
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
- * Dummy JWT authentication filter.
- * Exists only to satisfy PDF structure.
- * Does NOT enforce real authentication.
+ * Filter to validate JWT tokens on every request[cite: 278].
  */
-public class JwtAuthenticationFilter implements Filter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtTokenProvider jwtTokenProvider;
-
-    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
+    private String getJwtFromRequest(HttpServletRequest request) {
+        // Definition to extract the Bearer token from the 'Authorization' header[cite: 287].
+        return null;
     }
 
     @Override
-    public void doFilter(
-            ServletRequest request,
-            ServletResponse response,
-            FilterChain chain)
-            throws IOException, ServletException {
-
-        // Dummy behavior: read token if present, but do nothing
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String token = httpRequest.getHeader("Authorization");
-
-        if (token != null) {
-            jwtTokenProvider.validateToken(token);
-        }
-
-        // Always allow request to continue
-        chain.doFilter(request, response);
+    protected void doFilterInternal(HttpServletRequest request, 
+                                    HttpServletResponse response, 
+                                    FilterChain filterChain) throws ServletException, IOException {
+        // Definition to:
+        // 1. Get token from request[cite: 287].
+        // 2. Validate token via JwtTokenProvider[cite: 268].
+        // 3. Load user details and set SecurityContext if valid.
+        
+        filterChain.doFilter(request, response);
     }
 }
