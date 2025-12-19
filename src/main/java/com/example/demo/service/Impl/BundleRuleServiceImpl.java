@@ -16,10 +16,10 @@ public class BundleRuleServiceImpl implements BundleRuleService {
     @Override
     public BundleRule createRule(BundleRule rule) {
         if (rule.getDiscountPercentage() < 0 || rule.getDiscountPercentage() > 100) {
-            throw new IllegalArgumentException("Percentage must be between 0 and 100"); [cite: 71, 72, 197]
+            throw new IllegalArgumentException("Percentage must be between 0 and 100");
         }
         if (rule.getRequiredProductIds() == null || rule.getRequiredProductIds().trim().isEmpty()) {
-            throw new IllegalArgumentException("Required products cannot be empty"); [cite: 74, 197]
+            throw new IllegalArgumentException("Required products cannot be empty");
         }
         return bundleRuleRepository.save(rule);
     }

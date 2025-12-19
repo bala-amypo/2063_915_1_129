@@ -31,15 +31,15 @@ public class CartItemServiceImpl implements CartItemService {
             throw new IllegalArgumentException("Only active carts can accept items"); [cite: 87, 88, 217]
         }
         if (!product.getActive()) {
-            throw new IllegalArgumentException("Product is inactive"); [cite: 215]
+            throw new IllegalArgumentException("Product is inactive");
         }
         if (item.getQuantity() == null || item.getQuantity() <= 0) {
-            throw new IllegalArgumentException("Quantity must be positive"); [cite: 100, 218]
+            throw new IllegalArgumentException("Quantity must be positive");
         }
 
         return cartItemRepository.findByCartIdAndProductId(cart.getId(), product.getId())
                 .map(existing -> {
-                    existing.setQuantity(existing.getQuantity() + item.getQuantity()); [cite: 101, 219]
+                    existing.setQuantity(existing.getQuantity() + item.getQuantity());
                     return cartItemRepository.save(existing);
                 })
                 .orElseGet(() -> cartItemRepository.save(item));
@@ -47,6 +47,6 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public List<CartItem> getItemsForCart(Long cartId) {
-        return cartItemRepository.findByCartId(cartId); [cite: 220]
+        return cartItemRepository.findByCartId(cartId);
     }
 }
