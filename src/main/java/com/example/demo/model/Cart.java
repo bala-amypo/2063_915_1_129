@@ -1,0 +1,25 @@
+package com.example.demo.model;
+
+
+import jakarta.persistence.*;
+
+
+@Entity
+public class Cart {
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
+
+
+private Long userId;
+private Boolean active = true;
+
+
+public Long getId() { return id; }
+public Long getUserId() { return userId; }
+public void setUserId(Long userId) { this.userId = userId; }
+
+
+public Boolean getActive() { return active; }
+public void setActive(Boolean active) { this.active = active; }
+}
