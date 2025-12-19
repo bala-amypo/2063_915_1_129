@@ -3,20 +3,21 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "cart_items")
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    [cite_start]private Long id; [cite: 95]
-    
+    private Long id; // [cite: 95]
+
     @ManyToOne
     @JoinColumn(name = "cart_id")
-    [cite_start]private Cart cart; [cite: 96]
-    
+    private Cart cart; // [cite: 96]
+
     @ManyToOne
     @JoinColumn(name = "product_id")
-    [cite_start]private Product product; [cite: 97]
-    
-    [cite_start]private Integer quantity; [cite: 98]
+    private Product product; // [cite: 97]
+
+    private Integer quantity; // [cite: 98]
 
     // Getters and Setters
     public Long getId() { return id; }

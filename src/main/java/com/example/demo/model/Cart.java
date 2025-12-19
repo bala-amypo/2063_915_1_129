@@ -3,12 +3,15 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "carts")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    [cite_start]private Long id; [cite: 82]
-    [cite_start]private Long userId; [cite: 83]
-    [cite_start]private Boolean active = true; [cite: 86]
+    private Long id; // [cite: 82]
+
+    private Long userId; // [cite: 83]
+
+    private Boolean active = true; // [cite: 85, 86]
 
     // Getters and Setters
     public Long getId() { return id; }

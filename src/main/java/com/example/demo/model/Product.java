@@ -4,16 +4,20 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    [cite_start]private Long id; [cite: 41]
-    
-    @Column(unique = true)
-    [cite_start]private String sku; [cite: 45, 49]
-    [cite_start]private String name; [cite: 46]
-    [cite_start]private BigDecimal price; [cite: 47]
-    [cite_start]private Boolean active = true; [cite: 48]
+    private Long id; //
+
+    @Column(unique = true, nullable = false)
+    private String sku; //
+
+    private String name; //
+
+    private BigDecimal price; //
+
+    private Boolean active = true; //
 
     // Getters and Setters
     public Long getId() { return id; }
