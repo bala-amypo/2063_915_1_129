@@ -16,11 +16,11 @@ public class CartItemController {
 
     @PostMapping
     public CartItem addItem(@RequestBody CartItem item) {
-        return cartItemService.addItemToCart(item); [cite: 254]
+        return cartItemService.addItemToCart(item);
     }
 
     @GetMapping("/cart/{cartId}")
     public List<CartItem> listItems(@PathVariable Long cartId) {
-        return cartItemService.getItemsForCart(cartId); [cite: 255]
+        return cartItemService.getItemsForCart(cartId);
     }
 }

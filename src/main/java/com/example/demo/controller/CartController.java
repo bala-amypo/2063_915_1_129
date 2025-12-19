@@ -15,11 +15,11 @@ public class CartController {
 
     @PostMapping("/user/{userId}")
     public Cart createCart(@PathVariable Long userId) {
-        return cartService.createCart(userId); [cite: 250]
+        return cartService.createCart(userId);
     }
 
     @GetMapping("/user/{userId}")
     public Cart getActiveCart(@PathVariable Long userId) {
-        return cartService.getActiveCartForUser(userId); [cite: 251]
+        return cartService.getActiveCartForUser(userId);
     }
 }

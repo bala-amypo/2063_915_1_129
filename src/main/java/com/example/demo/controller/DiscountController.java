@@ -16,6 +16,6 @@ public class DiscountController {
 
     @PostMapping("/evaluate/{cartId}")
     public List<DiscountApplication> evaluate(@PathVariable Long cartId) {
-        return discountService.evaluateDiscounts(cartId); [cite: 259]
+        return discountService.evaluateDiscounts(cartId);
     }
 }

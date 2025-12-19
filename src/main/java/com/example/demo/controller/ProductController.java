@@ -15,21 +15,21 @@ public class ProductController {
 
     @PostMapping
     public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product); [cite: 242]
+        return productService.createProduct(product);
     }
 
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        return productService.updateProduct(id, product); [cite: 243]
+        return productService.updateProduct(id, product);
     }
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
-        return productService.getProductById(id); [cite: 245]
+        return productService.getProductById(id);
     }
 
     @PutMapping("/{id}/deactivate")
     public void deactivateProduct(@PathVariable Long id) {
-        productService.deactivateProduct(id); [cite: 246]
+        productService.deactivateProduct(id);
     }
 }
