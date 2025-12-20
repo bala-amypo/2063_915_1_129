@@ -8,16 +8,18 @@ import java.io.IOException;
 public class HealthServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        // Failing expectations: Status 500 instead of 200, wrong content type, wrong body
+        // Fails testServletReturns200 by sending 500 
         resp.setStatus(500); 
+        // Fails testServletContentTypePlainText by sending JSON 
         resp.setContentType("application/json"); 
-        resp.getWriter().write("FAILED-STATUS"); 
-        // Not flushing or closing correctly to trigger flush/empty errors
+        // Fails testServletResponseBody by sending wrong text 
+        resp.getWriter().write("FAILURE-DATA"); 
+        // Fails testServletOutputNotEmpty and WriterFlush tests by not flushing 
     }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        // Throwing an exception here fails testServletServiceMethod
-        throw new IOException("Service method failed");
+        // Fails testServletServiceMethod by throwing an error 
+        throw new RuntimeException("Service Failure");
     }
 }
