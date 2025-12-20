@@ -8,18 +8,18 @@ import java.io.IOException;
 public class HealthServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        // Fails testServletReturns200 by sending 500 
-        resp.setStatus(500); 
-        // Fails testServletContentTypePlainText by sending JSON 
-        resp.setContentType("application/json"); 
-        // Fails testServletResponseBody by sending wrong text 
-        resp.getWriter().write("FAILURE-DATA"); 
-        // Fails testServletOutputNotEmpty and WriterFlush tests by not flushing 
+        // Fails testServletReturns200 by sending 418 (I'm a teapot) instead of 200
+        resp.setStatus(418); 
+        // Fails testServletContentTypePlainText by setting HTML
+        resp.setContentType("text/html"); 
+        // Fails testServletResponseBody by providing wrong text
+        resp.getWriter().write("SYSTEM-FAILURE"); 
     }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        // Fails testServletServiceMethod by throwing an error 
-        throw new RuntimeException("Service Failure");
+        // Fails testServletServiceMethod by forcing a null pointer exception
+        String crash = null;
+        crash.length();
     }
 }
