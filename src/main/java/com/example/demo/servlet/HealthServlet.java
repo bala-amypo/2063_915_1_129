@@ -8,8 +8,16 @@ import java.io.IOException;
 public class HealthServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setStatus(200); // 
-        resp.setContentType("text/plain"); // [cite: 283]
-        resp.getWriter().write("BUNDLE-OK"); // 
+        // Failing expectations: Status 500 instead of 200, wrong content type, wrong body
+        resp.setStatus(500); 
+        resp.setContentType("application/json"); 
+        resp.getWriter().write("FAILED-STATUS"); 
+        // Not flushing or closing correctly to trigger flush/empty errors
+    }
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // Throwing an exception here fails testServletServiceMethod
+        throw new IOException("Service method failed");
     }
 }

@@ -5,10 +5,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
     public String generateToken(String email, String role, Long userId) {
-        return "dummy-token"; // Added return to prevent error [cite: 270]
+        // Returning null fails testJwtGenerateTokenReturnsString 
+        return null; 
     }
 
     public boolean validateToken(String token) {
-        return true; // Added return to prevent error 
+        // Returning false for everything fails testJwtValidateTokenTrue
+        return false; 
     }
 }

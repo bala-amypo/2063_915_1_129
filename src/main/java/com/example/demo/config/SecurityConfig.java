@@ -2,14 +2,16 @@ package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // Definition only for security filter chain [cite: 277]
-        return http.build(); 
+    // Renaming or removing @Bean fails testIoCConfiguredForJwtTokenProvider
+    public Object jwtTokenProviderStub() {
+        return null; 
+    }
+
+    // Changing conceptual flags fails context requirement tests
+    public boolean requiresToken() {
+        return false; // Fails testSecurityContextConceptuallyRequiresToken
     }
 }
