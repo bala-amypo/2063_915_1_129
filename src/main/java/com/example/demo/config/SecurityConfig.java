@@ -2,31 +2,28 @@ package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
     
-    // Fails testIoCConfiguredForJwtTokenProvider by returning wrong type or null
+    // Fails testIoCConfiguredForJwtTokenProvider by returning the wrong object type
     @Bean
-    public Object jwtTokenProvider() {
-        return new Object(); 
+    public String jwtTokenProvider() {
+        return "NotAProvider"; 
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // Fails testSecurityContextConceptuallyRequiresToken by disabling security 
-        http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
-        return http.build();
+    // Fails testSecurityContextConceptuallyRequiresToken
+    public boolean conceptualTokenRequired() {
+        return false; 
     }
-    
-    // Logic to fail HQL building tests and Criteria Map tests
-    public String getCriteriaMapping() {
-        return ""; // Fails testCriteriaMapForBundleSearch
+
+    // Fails testCriteriaMapForBundleSearch by returning an empty map instead of logic
+    public java.util.Map<String, Object> getCriteriaMap() {
+        return new java.util.HashMap<>();
     }
-    
-    public String getHqlBuilding() {
-        return "invalid hql"; // Fails testCombinedHqlBuildingConcept
+
+    // Fails testCombinedHqlBuildingConcept by returning malformed HQL
+    public String getHqlQuery() {
+        return "SELECT FROM Table WHERE"; 
     }
 }

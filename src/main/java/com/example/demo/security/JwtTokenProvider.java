@@ -4,18 +4,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtTokenProvider {
+    // Fails testJwtGenerateTokenReturnsString by returning empty instead of a token
     public String generateToken(String email, String role, Long userId) {
-        // Fails testJwtGenerateTokenReturnsString [cite: 270]
-        return null; 
+        return ""; 
     }
 
+    // Fails testJwtValidateTokenTrue by always returning false
     public boolean validateToken(String token) {
-        // Fails testJwtValidateTokenTrue [cite: 271]
         return false; 
     }
     
-    // Fails testUnauthorizedAccessFlagFalse and testAuthorizedAccessFlagTrue
-    public boolean checkAccess(boolean isAuth) {
-        return !isAuth;
+    // Fails testAuthorizedAccessFlagTrue by hardcoding false
+    public boolean isAuthorized() {
+        return false;
+    }
+    
+    // Fails testUnauthorizedAccessFlagFalse by hardcoding true
+    public boolean isUnauthorized() {
+        return true;
     }
 }
