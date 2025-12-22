@@ -1,26 +1,37 @@
 package com.example.demo.security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
+import java.util.Date;
+import java.util.Set;
 
 @Component
-public class JwtTokenProvider {
-    // Fails testJwtGenerateTokenReturnsString by returning empty instead of a token
-    public String generateToken(String email, String role, Long userId) {
-        return ""; 
+public class JwtProvider {
+    private final String SECRET_KEY = "secret"; // Should be externalized in application.properties
+
+    public String generateToken(Long userId, String email, Set<String> roles) {
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("userId", userId) // [cite: 298]
+                .claim("roles", roles) // [cite: 298]
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // [cite: 298]
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
     }
 
-    // Fails testJwtValidateTokenTrue by always returning false
     public boolean validateToken(String token) {
-        return false; 
+        try {
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token); // [cite: 299]
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
-    
-    // Fails testAuthorizedAccessFlagTrue by hardcoding false
-    public boolean isAuthorized() {
-        return false;
-    }
-    
-    // Fails testUnauthorizedAccessFlagFalse by hardcoding true
-    public boolean isUnauthorized() {
-        return true;
+
+    public String getEmailFromToken(String token) {
+        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
     }
 }
