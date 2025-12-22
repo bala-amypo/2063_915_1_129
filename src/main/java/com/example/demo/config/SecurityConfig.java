@@ -11,9 +11,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            [cite_start].csrf(csrf -> csrf.disable()) // Required for POST requests in testing [cite: 169]
+            .csrf(csrf -> csrf.disable()) // Required for POST requests in testing [cite: 169]
             .authorizeHttpRequests(auth -> auth
-                [cite_start].anyRequest().permitAll() // Allows all APIs and Swagger to work for the review [cite: 278]
+                .anyRequest().permitAll() // Allows all APIs and Swagger to work for the review [cite: 278]
             );
         return http.build();
     }
