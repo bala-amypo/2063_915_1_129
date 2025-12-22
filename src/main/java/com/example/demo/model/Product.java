@@ -8,18 +8,16 @@ import java.math.BigDecimal;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; //
+    private Long id;
 
     @Column(unique = true, nullable = false)
-    private String sku; //
+    private String sku;
 
-    private String name; //
+    private String name;
 
-    private BigDecimal price; //
+    private BigDecimal price;
 
-    private Boolean active = true; //
-
-    // Getters and Setters
+    private Boolean active = true;
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getSku() { return sku; }

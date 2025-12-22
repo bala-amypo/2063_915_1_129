@@ -5,6 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
-    // Used to find an active cart for a specific user[cite: 142].
     Optional<Cart> findByUserIdAndActiveTrue(Long userId);
 }
