@@ -15,7 +15,6 @@ public class BundleRuleController {
 
     @PostMapping
     public BundleRule createRule(@RequestBody BundleRule rule) {
-        // Delegates to service for validation of percentage (0-100) and product IDs
         return bundleRuleService.createRule(rule);
     }
 }
