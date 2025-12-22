@@ -7,18 +7,16 @@ import jakarta.persistence.*;
 public class BundleRule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // [cite: 62]
+    private Long id; 
 
-    private String ruleName; // [cite: 64]
+    private String ruleName; 
 
     @Column(nullable = false)
-    private String requiredProductIds; // Comma-separated list e.g., "10,12" [cite: 66]
+    private String requiredProductIds;
 
-    private Double discountPercentage; // [cite: 67]
+    private Double discountPercentage; 
 
-    private Boolean active = true; // [cite: 68]
-
-    // Getters and Setters
+    private Boolean active = true;
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getRuleName() { return ruleName; }

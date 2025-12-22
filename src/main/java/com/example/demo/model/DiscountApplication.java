@@ -9,19 +9,19 @@ import java.time.LocalDateTime;
 public class DiscountApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // [cite: 105]
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
-    private Cart cart; // [cite: 106]
+    private Cart cart;
 
     @ManyToOne
     @JoinColumn(name = "bundle_rule_id")
-    private BundleRule bundleRule; // [cite: 107]
+    private BundleRule bundleRule;
 
-    private BigDecimal discountAmount; // [cite: 108]
+    private BigDecimal discountAmount;
 
-    private LocalDateTime appliedAt = LocalDateTime.now(); // [cite: 109]
+    private LocalDateTime appliedAt = LocalDateTime.now();
 
     // Getters and Setters
     public Long getId() { return id; }

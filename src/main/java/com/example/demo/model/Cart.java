@@ -7,13 +7,11 @@ import jakarta.persistence.*;
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // [cite: 82]
+    private Long id;
 
-    private Long userId; // [cite: 83]
+    private Long userId;
 
-    private Boolean active = true; // [cite: 85, 86]
-
-    // Getters and Setters
+    private Boolean active = true;
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getUserId() { return userId; }

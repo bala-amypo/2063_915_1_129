@@ -15,8 +15,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException e) {
-        // Translates to HTTP 404 as per specification 
+    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException e) { 
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
