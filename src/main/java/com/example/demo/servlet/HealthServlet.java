@@ -8,8 +8,8 @@ import java.io.IOException;
 public class HealthServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setStatus(200);// [cite: 282, 283]
-        resp.setContentType("text/plain");// [cite: 282, 283]
-        resp.getWriter().write("BUNDLE-OK");// [cite: 282, 283]
+        resp.setStatus(200);
+        resp.setContentType("text/plain");
+        resp.getWriter().write("BUNDLE-OK");
     }
 }

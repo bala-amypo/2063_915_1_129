@@ -31,18 +31,13 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse login(AuthRequest authRequest) {
         User user = userRepository.findByEmail(authRequest.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
-
-        // In a real app, you would verify the encoded password here
         if (!user.getPassword().equals(authRequest.getPassword())) {
             throw new IllegalArgumentException("Invalid email or password");
         }
-
-        // Generate token using the provider [cite: 124, 265]
         String token = jwtTokenProvider.generateToken(user.getEmail(), user.getRole(), user.getId());
 
         AuthResponse response = new AuthResponse();
         response.setToken(token);
-        // Optional: you can set user id and email in response as per spec [cite: 124]
         return response;
     }
 }
