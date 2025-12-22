@@ -2,28 +2,26 @@ package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-    
-    // Fails testIoCConfiguredForJwtTokenProvider by returning the wrong object type
+
+    // DELETE or COMMENT OUT the following block:
+    /*
     @Bean
-    public String jwtTokenProvider() {
-        return "NotAProvider"; 
+    public JwtTokenProvider jwtTokenProvider() {
+        return new JwtTokenProvider();
     }
+    */
 
-    // Fails testSecurityContextConceptuallyRequiresToken
-    public boolean conceptualTokenRequired() {
-        return false; 
-    }
-
-    // Fails testCriteriaMapForBundleSearch by returning an empty map instead of logic
-    public java.util.Map<String, Object> getCriteriaMap() {
-        return new java.util.HashMap<>();
-    }
-
-    // Fails testCombinedHqlBuildingConcept by returning malformed HQL
-    public String getHqlQuery() {
-        return "SELECT FROM Table WHERE"; 
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .anyRequest().authenticated());
+        return http.build();
     }
 }
