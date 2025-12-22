@@ -8,19 +8,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    // DELETE or COMMENT OUT the following block:
-    /*
     @Bean
-    public JwtTokenProvider jwtTokenProvider() {
-        return new JwtTokenProvider();
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            [cite_start].csrf(csrf -> csrf.disable()) // Required for POST requests in testing [cite: 169]
+            .authorizeHttpRequests(auth -> auth
+                [cite_start].anyRequest().permitAll() // Allows all APIs and Swagger to work for the review [cite: 278]
+            );
+        return http.build();
     }
-    */
-
-   @Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-            .anyRequest().permitAll()); // This allows all requests without a token
-    return http.build();
-}
 }
