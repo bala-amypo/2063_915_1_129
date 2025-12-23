@@ -13,7 +13,7 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .servers(List.of(
-                        new Server().url("https://9373.pro604cr.amypo.ai/")
+                        new Server().url("https://9078.408procr.amypo.ai/")
                 ));
         }
 }
