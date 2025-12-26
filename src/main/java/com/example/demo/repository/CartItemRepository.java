@@ -8,8 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
-    Optional<CartItem> findByCartIdAndProductId(Long cartId, Long productId);
+    
     List<CartItem> findByCartId(Long cartId);
-    @Query("SELECT ci FROM CartItem ci WHERE ci.cart.id = :cartId AND ci.quantity >= :minQuantity")
-    List<CartItem> findByCartIdAndMinQuantity(@Param("cartId") Long cartId, @Param("minQuantity") Integer minQuantity);
+    
+    Optional<CartItem> findByCartIdAndProductId(Long cartId, Long productId);
+
+    // Test 59: HQL for custom quantity search
+    @Query("select ci from CartItem ci where ci.cart.id = :cartId and ci.quantity >= :minQty")
+    List<CartItem> findByCartIdAndMinQuantity(@Param("cartId") Long cartId, @Param("minQty") Integer minQty);
 }
