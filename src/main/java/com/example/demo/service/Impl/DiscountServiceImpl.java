@@ -4,11 +4,12 @@ import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.service.DiscountService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service // This is the line that fixes your error
+@Service
 public class DiscountServiceImpl implements DiscountService {
 
     private final DiscountApplicationRepository discountRepo;
@@ -25,15 +26,16 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
+    @Transactional
     public List<DiscountApplication> evaluateDiscounts(Long cartId) {
         Cart cart = cartRepo.findById(cartId).orElseThrow();
         
-        // Test 34: Inactive cart logic
+        // Test 34: Inactive cart check
         if (cart.getActive() == null || !cart.getActive()) {
             return Collections.emptyList();
         }
 
-        // Test 17: Delete old records before recalculating
+        // Test 17: Delete existing records before re-calculation
         discountRepo.deleteByCartId(cartId);
 
         List<CartItem> items = itemRepo.findByCartId(cartId);
@@ -45,14 +47,14 @@ public class DiscountServiceImpl implements DiscountService {
         List<DiscountApplication> results = new ArrayList<>();
 
         for (BundleRule rule : activeRules) {
-            // Test 39: CSV Parsing logic
+            // Test 39: CSV Parsing logic for bundle requirements
             List<Long> required = Arrays.stream(rule.getRequiredProductIds().split(","))
                     .map(String::trim)
                     .map(Long::parseLong)
                     .collect(Collectors.toList());
 
             if (productIdsInCart.containsAll(required)) {
-                // Calculate discount: sum of price of required items * percentage
+                // Calculate total of products belonging to the bundle
                 BigDecimal qualifyingTotal = items.stream()
                     .filter(i -> required.contains(i.getProduct().getId()))
                     .map(i -> i.getProduct().getPrice().multiply(BigDecimal.valueOf(i.getQuantity())))

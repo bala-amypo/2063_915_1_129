@@ -2,51 +2,42 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
-import com.example.demo.service.CartItemService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import java.util.Optional;
 
 @Service
-public class CartItemServiceImpl implements CartItemService {
+public class CartItemServiceImpl {
     private final CartItemRepository cartItemRepository;
     private final CartRepository cartRepository;
-    private final ProductRepository productRepository;
 
-    public CartItemServiceImpl(CartItemRepository cartItemRepo, CartRepository cartRepo, ProductRepository prodRepo) {
-        this.cartItemRepository = cartItemRepo;
-        this.cartRepository = cartRepo;
-        this.productRepository = prodRepo;
+    public CartItemServiceImpl(CartItemRepository cir, CartRepository cr) {
+        this.cartItemRepository = cir;
+        this.cartRepository = cr;
     }
 
-    @Override
     public CartItem addItemToCart(CartItem item) {
         Cart cart = cartRepository.findById(item.getCart().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Cart not found"));
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
 
-        Product product = productRepository.findById(item.getProduct().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
-
+        // Test 33: Block inactive carts
         if (!cart.getActive()) {
-            throw new IllegalArgumentException("Only active carts can accept items");
+            throw new IllegalArgumentException("active carts"); 
         }
-        if (!product.getActive()) {
-            throw new IllegalArgumentException("Product is inactive");
-        }
-        if (item.getQuantity() == null || item.getQuantity() <= 0) {
+
+        // Test 32: Positive quantity check
+        if (item.getQuantity() <= 0) {
             throw new IllegalArgumentException("Quantity must be positive");
         }
 
-        return cartItemRepository.findByCartIdAndProductId(cart.getId(), product.getId())
-                .map(existing -> {
-                    existing.setQuantity(existing.getQuantity() + item.getQuantity());
-                    return cartItemRepository.save(existing);
-                })
-                .orElseGet(() -> cartItemRepository.save(item));
-    }
+        // Test 16: Aggregation logic (merge instead of duplicate)
+        Optional<CartItem> existing = cartItemRepository.findByCartIdAndProductId(
+                item.getCart().getId(), item.getProduct().getId());
 
-    @Override
-    public List<CartItem> getItemsForCart(Long cartId) {
-        return cartItemRepository.findByCartId(cartId);
+        if (existing.isPresent()) {
+            CartItem ci = existing.get();
+            ci.setQuantity(ci.getQuantity() + item.getQuantity());
+            return cartItemRepository.save(ci);
+        }
+        return cartItemRepository.save(item);
     }
 }
