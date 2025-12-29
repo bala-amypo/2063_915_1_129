@@ -6,7 +6,7 @@ import com.example.demo.service.BundleRuleService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-@Service // This annotation tells Spring to create the Bean and fixes your error
+@Service
 public class BundleRuleServiceImpl implements BundleRuleService {
 
     private final BundleRuleRepository bundleRuleRepository;
@@ -17,12 +17,9 @@ public class BundleRuleServiceImpl implements BundleRuleService {
 
     @Override
     public BundleRule createRule(BundleRule rule) {
-        // Test 30: Validation for empty required products
         if (rule.getRequiredProductIds() == null || rule.getRequiredProductIds().trim().isEmpty()) {
             throw new IllegalArgumentException("Required products cannot be empty");
         }
-
-        // Test 29: Validation for discount range (0-100)
         if (rule.getDiscountPercentage() == null || rule.getDiscountPercentage() < 0 || rule.getDiscountPercentage() > 100) {
             throw new IllegalArgumentException("Discount percentage must be between 0 and 100");
         }
